@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gnoke Axioms</title>
+
+<!--
+  GS2 convention: theme.js must be the first synchronous script in <head>,
+  before any CSS paints, so app colors don't flash before theming applies.
+  Path below assumes the shared system copy — adjust to match wherever
+  sys2026/theme.js actually lives in your tree.
+-->
+<script src="/sys2026/theme.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+
+<!--
+  This app renders its own window chrome (titlebar + menu bar) rather than
+  the shared GS2 topbar, so /sys2026/topbar.css is deliberately NOT linked
+  here. If you'd rather this app sit under the standard topbar instead of
+  its own, drop the .titlebar/.menubar block from index/app.js and link
+  topbar.css after this stylesheet per the normal cascade convention.
+-->
+</head>
+<body>
+  <div id="app"></div>
+  <script src="js/app.js"></script>
+</body>
+</html>
