@@ -1,1 +1,130 @@
+/*
+  Colors use var(--gnoke-token, fallback) so the app inherits GS2's global
+  theme if those tokens exist in your system, and still looks right
+  standalone if they don't. Token names below are placeholders — swap them
+  for whatever your actual sys2026 token vocabulary is.
+*/
+:root {
+  --gx-ink: var(--gnoke-accent, #E3A23B);
+  --gx-moss: var(--gnoke-success, #8FAE6B);
+  --gx-coral: var(--gnoke-danger, #C97B63);
+  --gx-bg: var(--gnoke-bg, #0C0E0A);
+  --gx-window: var(--gnoke-surface, #12140F);
+  --gx-titlebar: var(--gnoke-surface-2, #1A1D16);
+  --gx-card: var(--gnoke-surface, #1B1D16);
+  --gx-border: var(--gnoke-border, #33362B);
+  --gx-text: var(--gnoke-text, #ECE7D8);
+  --gx-muted: var(--gnoke-muted, #8B8C7C);
+}
 
+* { box-sizing: border-box; }
+
+body {
+  background: var(--gx-bg);
+  color: var(--gx-text);
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 20px 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.window {
+  width: 100%; max-width: 420px;
+  background: var(--gx-window);
+  border: 1px solid var(--gx-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+.titlebar {
+  background: var(--gx-titlebar);
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--gx-border);
+}
+.traffic { display: flex; gap: 6px; }
+.traffic span { width: 10px; height: 10px; border-radius: 50%; display: block; cursor: pointer; }
+.traffic .red { background: var(--gx-coral); }
+.traffic .yellow { background: var(--gx-ink); }
+.traffic .green { background: var(--gx-moss); }
+.wintitle { font-size: 12px; font-weight: 600; color: var(--gx-muted); letter-spacing: 0.3px; }
+
+.menubar {
+  display: flex; gap: 2px;
+  background: var(--gx-titlebar);
+  border-bottom: 1px solid var(--gx-border);
+  padding: 0 8px;
+  position: relative;
+}
+.menu { position: relative; }
+.menu-label {
+  background: transparent; border: none; color: var(--gx-muted);
+  font-size: 12px; font-family: inherit; padding: 8px 10px; cursor: pointer;
+}
+.menu-label:hover, .menu.open .menu-label { color: var(--gx-text); background: rgba(255,255,255,0.04); }
+.menu-dropdown {
+  display: none; position: absolute; top: 100%; left: 0;
+  background: var(--gx-card); border: 1px solid var(--gx-border); border-radius: 6px;
+  min-width: 170px; padding: 4px; z-index: 10;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+.menu.open .menu-dropdown { display: block; }
+.menu-item {
+  display: block; width: 100%; text-align: left; background: transparent;
+  border: none; color: var(--gx-text); font-size: 13px; font-family: inherit;
+  padding: 8px 10px; border-radius: 4px; cursor: pointer;
+}
+.menu-item:hover { background: rgba(255,255,255,0.06); }
+.menu-item.active { color: var(--gx-ink); }
+.menu-help-text { font-size: 12px; line-height: 1.5; color: var(--gx-muted); padding: 8px 10px; }
+
+.content { padding: 20px 18px 22px; }
+.meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.deck-name { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; letter-spacing: 1px; color: var(--gx-muted); text-transform: uppercase; }
+.streak { display: flex; align-items: center; gap: 4px; font-family: ui-monospace, monospace; font-size: 11px; color: var(--gx-ink); }
+
+.scene {
+  background: var(--gx-card); border: 1px solid var(--gx-border); border-radius: 10px;
+  padding: 32px 20px; text-align: center; margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+  font-size: 44px;
+}
+.scene .arrow { font-size: 18px; color: var(--gx-muted); }
+
+.prompt { font-size: 13px; color: var(--gx-muted); margin: 0 0 10px; text-align: center; }
+.options { display: flex; flex-direction: column; gap: 8px; }
+.opt {
+  display: flex; align-items: center; justify-content: space-between;
+  text-align: left; background: var(--gx-card); border: 1px solid var(--gx-border);
+  border-radius: 8px; color: var(--gx-text); font-size: 14px; padding: 12px 14px;
+  cursor: pointer; width: 100%; font-family: inherit;
+  transition: transform 0.08s ease;
+}
+.opt:active { transform: scale(0.98); }
+.opt.wrong { border-color: var(--gx-coral); color: var(--gx-coral); animation: gx-shake 0.25s ease-in-out; }
+@keyframes gx-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+
+.result { animation: gx-stamp-in 0.35s ease-out; }
+@keyframes gx-stamp-in { 0%{transform:scale(2.2) rotate(-8deg);opacity:0} 60%{transform:scale(0.95) rotate(-4deg);opacity:1} 100%{transform:scale(1) rotate(-3deg);opacity:1} }
+
+.correct-line {
+  display: flex; align-items: center; gap: 8px; background: var(--gx-card);
+  border: 1px solid var(--gx-moss); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; font-size: 14px;
+}
+.stamp {
+  border: 2px solid var(--gx-ink); border-radius: 6px; padding: 16px 14px;
+  margin-bottom: 14px; transform: rotate(-1.5deg);
+}
+.stamp .tag { font-family: ui-monospace, monospace; font-size: 10px; letter-spacing: 1px; color: var(--gx-ink); text-transform: uppercase; }
+.stamp .detail { font-family: Georgia, 'Iowan Old Style', serif; font-size: 14px; line-height: 1.5; color: var(--gx-muted); margin: 8px 0 0; }
+
+.next-btn {
+  width: 100%; background: var(--gx-ink); color: #241705; border: none;
+  border-radius: 8px; padding: 12px 0; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;
+  transition: transform 0.08s ease;
+}
+.next-btn:active { transform: scale(0.98); }
+
+button:focus-visible { outline: 2px solid var(--gx-ink); outline-offset: 2px; }
